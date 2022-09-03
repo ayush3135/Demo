@@ -1,10 +1,21 @@
 package com.company.demo;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-public class Customers {
+public class Customers implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	
 	@Id
@@ -12,12 +23,6 @@ public class Customers {
 	private String NAME;
 	private String ADDRESS;
 	private long PHONE;
-	public int getID() {
-		return ID;
-	}
-	public void setID(int iD) {
-		ID = iD;
-	}
 	public String getNAME() {
 		return NAME;
 	}
@@ -36,12 +41,18 @@ public class Customers {
 	public void setPHONE(long pHONE) {
 		PHONE = pHONE;
 	}
-	@Override
-	public String toString() {
-		return "Customers [ID=" + ID + ", NAME=" + NAME + ", ADDRESS=" + ADDRESS + ", PHONE=" + PHONE + "]";
+	
+	public int getID() {
+		return ID;
+	}
+	
+	public void setID(int Id) {
+		ID = Id;
+	}
+	 
 	}
 	
 
 	
 	
-}
+

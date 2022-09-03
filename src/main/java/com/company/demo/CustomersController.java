@@ -3,7 +3,10 @@ package com.company.demo;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.Cacheable;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
+@EnableCaching
 public class CustomersController {
 
 	
 @Autowired
-CustomersRepo repo;
-
+//CustomersService customersService;
+CustomersRepo customersRepo;
 @RequestMapping("/")
 public ModelAndView home() {
 	ModelAndView mv = new ModelAndView("home.jsp");
@@ -31,29 +35,34 @@ public ModelAndView home() {
 
 
 @RequestMapping("/Customers")
-public List<Customers> allCustomers() {
-	return repo.findAll();
+   public List<Customers> allCustomers() {
+	//return customersService.getAllCustomers();
+	return customersRepo.findAll();
 }
 
 @RequestMapping("/addCustomers")
 public Customers addCustomers(Customers customers) {
-	repo.save(customers);
+	//customersService.saveCustomers(customers);
+	customersRepo.save(customers);
 	return customers;
 }
 
-@RequestMapping("/getCustomers")
 
-public Optional<Customers> getCustomers(@RequestParam ("ID") int ID){
-	System.out.println("hi");	
-	 return repo.findById(ID);
-	 
+@RequestMapping("/getCustomers")
+public Customers getCustomers(@RequestParam ("ID") int ID) {	
+	 //return customersService.getOneCustomers(ID);
+	Customers customers = customersRepo.findById(ID)
+	         .orElseThrow(() -> new CustomersNotFoundException("Customers Not Found"));
+	return customers;
 }	
 
 
 @RequestMapping("/deleteCustomers")
 public String deleteCustomers(@RequestParam ("ID") int ID) {
-	Customers c = repo.getById(ID);
-	repo.delete(c);
+	//customersService.deleteCustomers(ID);
+	Customers customers = customersRepo.findById(ID)
+	           .orElseThrow(() -> new CustomersNotFoundException("Customers Not Found"));
+	       customersRepo.delete(customers);
 	return "customer deleted";
 }
 
