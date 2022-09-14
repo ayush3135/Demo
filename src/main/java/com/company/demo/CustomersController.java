@@ -1,25 +1,19 @@
 package com.company.demo;
 
 import java.util.List;
-import java.util.Optional;
-
-import javax.persistence.Cacheable;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.transaction.annotation.Transactional;
 
 @RestController
-@EnableCaching
+@Transactional
 public class CustomersController {
 
 	
@@ -33,14 +27,15 @@ public ModelAndView home() {
 }
 	
 
-
 @RequestMapping("/Customers")
-   public List<Customers> allCustomers() {
+@Cacheable(value="Customers")//working fine
+  public List<Customers> allCustomers() {
 	//return customersService.getAllCustomers();
 	return customersRepo.findAll();
 }
 
 @RequestMapping("/addCustomers")
+@CacheEvict(value="Customers", allEntries=true)
 public Customers addCustomers(Customers customers) {
 	//customersService.saveCustomers(customers);
 	customersRepo.save(customers);
@@ -48,7 +43,8 @@ public Customers addCustomers(Customers customers) {
 }
 
 
-@RequestMapping("/getCustomers")
+@RequestMapping("/getCustomers") //working fine
+//@Cacheable(value="Customers", key="#ID")
 public Customers getCustomers(@RequestParam ("ID") int ID) {	
 	 //return customersService.getOneCustomers(ID);
 	Customers customers = customersRepo.findById(ID)
@@ -57,7 +53,8 @@ public Customers getCustomers(@RequestParam ("ID") int ID) {
 }	
 
 
-@RequestMapping("/deleteCustomers")
+@RequestMapping("/deleteCustomers") //working fine
+@CacheEvict(value="Customers", key="#Id", allEntries=true)
 public String deleteCustomers(@RequestParam ("ID") int ID) {
 	//customersService.deleteCustomers(ID);
 	Customers customers = customersRepo.findById(ID)
