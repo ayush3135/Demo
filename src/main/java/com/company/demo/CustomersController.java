@@ -43,8 +43,8 @@ public Customers addCustomers(Customers customers) {
 }
 
 
-@RequestMapping("/getCustomers") //working fine
-//@Cacheable(value="Customers", key="#ID")
+@RequestMapping("/getCustomers")
+@Cacheable(value="Customers", key="#ID")
 public Customers getCustomers(@RequestParam ("ID") int ID) {	
 	 //return customersService.getOneCustomers(ID);
 	Customers customers = customersRepo.findById(ID)
@@ -53,7 +53,7 @@ public Customers getCustomers(@RequestParam ("ID") int ID) {
 }	
 
 
-@RequestMapping("/deleteCustomers") //working fine
+@RequestMapping("/deleteCustomers")
 @CacheEvict(value="Customers", key="#Id", allEntries=true)
 public String deleteCustomers(@RequestParam ("ID") int ID) {
 	//customersService.deleteCustomers(ID);
