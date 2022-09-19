@@ -1,4 +1,4 @@
-package com.company.demo;
+/*package com.company.demo;
 
 import java.util.List;
 
@@ -14,3 +14,4 @@ public interface CustomersService {
 	    public List<Customers> getAllCustomers();
 
 }
+*/

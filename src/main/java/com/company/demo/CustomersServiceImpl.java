@@ -1,4 +1,8 @@
-package com.company.demo;
+
+//we have commented this file because we have implemented reddis in controller class.
+
+
+/*package com.company.demo;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,4 +59,4 @@ public class CustomersServiceImpl implements CustomersService {
     public List<Customers> getAllCustomers() {
        return CustomersRepo.findAll();
     }
-}
+}*/

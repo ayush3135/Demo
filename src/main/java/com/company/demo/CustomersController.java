@@ -35,7 +35,7 @@ public ModelAndView home() {
 }
 
 @RequestMapping("/addCustomers")
-@CacheEvict(value="Customers", allEntries=true)
+@CachePut(value="Customers", key="#customers.ID")
 public Customers addCustomers(Customers customers) {
 	//customersService.saveCustomers(customers);
 	customersRepo.save(customers);
