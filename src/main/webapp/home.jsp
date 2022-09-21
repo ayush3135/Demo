@@ -32,6 +32,8 @@
    <input type = "text" name = "ID">ID<br>
      <input type ="submit"><br>
     </form>
+    
+    <a href= "/logout">Logout</a>
 
 
 </body>
